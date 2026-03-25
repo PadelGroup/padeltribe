@@ -21,7 +21,7 @@ export default async function DashboardPage() {
         <h1 className="text-3xl font-black text-slate-900 mb-1">
           Hey, {profile?.name?.split(' ')[0] || 'Player'} 👋
         </h1>
-        <p className="text-slate-500">Welcome back to PadelTribe</p>
+        <p className="text-slate-500">Welcome back to CoPadel</p>
       </div>
 
       {/* Stats */}

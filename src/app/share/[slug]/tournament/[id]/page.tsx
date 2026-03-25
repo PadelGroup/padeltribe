@@ -68,7 +68,7 @@ export default async function PublicTournamentPage({ params }: { params: Promise
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-xl">🏓</span>
-            <span className="font-bold gradient-text">PadelTribe</span>
+            <span className="font-bold gradient-text">CoPadel</span>
           </Link>
           <span className="text-xs text-slate-400">Public results</span>
         </div>

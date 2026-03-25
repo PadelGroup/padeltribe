@@ -40,7 +40,7 @@ export default async function PublicRankingsPage({ params }: { params: Promise<{
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-xl">🏓</span>
-            <span className="font-bold gradient-text">PadelTribe</span>
+            <span className="font-bold gradient-text">CoPadel</span>
           </Link>
           <span className="text-xs text-slate-400">Public standings</span>
         </div>
@@ -139,7 +139,7 @@ export default async function PublicRankingsPage({ params }: { params: Promise<{
         <div className="bg-white border border-slate-200 rounded-2xl p-5 text-center">
           <p className="text-slate-500 text-sm mb-3">Want to join this community?</p>
           <Link href="/register" className="px-5 py-2.5 bg-gradient-to-r from-sky-500 to-orange-500 text-white rounded-xl font-bold text-sm inline-block hover:from-sky-400 hover:to-orange-400 transition-all">
-            Join PadelTribe
+            Join CoPadel
           </Link>
         </div>
       </div>

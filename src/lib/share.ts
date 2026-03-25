@@ -14,7 +14,7 @@ export function buildRankingsShareText(
       return `${medal} *${r.name}*  —  ${r.total_points} pts  (${winRate}% W)`;
     }),
     ``,
-    `📲 View full rankings on PadelTribe`,
+    `📲 View full rankings on CoPadel`,
   ];
   return lines.join('\n');
 }
@@ -43,7 +43,7 @@ export function buildMatchResultsShareText(
       return `Court ${m.court_number ?? '?'}: ${t1Won ? '🏆 ' : ''}${t1}  ${score}  ${!t1Won ? '🏆 ' : ''}${t2}`;
     }),
     ``,
-    `📲 Follow live on PadelTribe`,
+    `📲 Follow live on CoPadel`,
   ];
   return lines.join('\n');
 }
@@ -63,7 +63,7 @@ export function buildTournamentStandingsShareText(
       return `${medal} *${s.name}*  ${s.points} pts  (${s.matches_won}/${s.matches_played} W)`;
     }),
     ``,
-    `📲 Play on PadelTribe`,
+    `📲 Play on CoPadel`,
   ];
   return lines.join('\n');
 }

@@ -44,7 +44,7 @@ export default async function CommunitiesPage() {
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-bold text-slate-900 text-lg group-hover:text-sky-600 transition-colors leading-tight">{c.name}</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">padeltribe.com/{c.slug}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">copadel.com/{c.slug}</p>
                 </div>
               </div>
               {c.description && <p className="text-sm text-slate-500 mb-4 line-clamp-2">{c.description}</p>}

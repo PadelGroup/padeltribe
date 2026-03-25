@@ -122,7 +122,7 @@ export default function InvitePage() {
         <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2">
             <span className="text-2xl">🏓</span>
-            <span className="text-xl font-bold gradient-text">PadelTribe</span>
+            <span className="text-xl font-bold gradient-text">CoPadel</span>
           </Link>
         </div>
         {children}

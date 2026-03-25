@@ -7,7 +7,7 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between px-6 py-5 max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-2">
           <span className="text-2xl">🏓</span>
-          <span className="text-xl font-bold gradient-text">PadelTribe</span>
+          <span className="text-xl font-bold gradient-text">CoPadel</span>
         </div>
         <div className="flex gap-3">
           <Link href="/login" className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900 transition-colors">
@@ -74,7 +74,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="text-center py-6 text-slate-400 text-sm">
-        © 2025 PadelTribe — Built for the love of padel 🏓
+        © 2025 CoPadel — Built for the love of padel 🏓
       </footer>
     </div>
   );

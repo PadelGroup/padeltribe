@@ -33,7 +33,7 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <span className="text-2xl">🏓</span>
-            <span className="text-xl font-bold gradient-text">PadelTribe</span>
+            <span className="text-xl font-bold gradient-text">CoPadel</span>
           </Link>
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Create Admin Account</h1>
           <p className="text-slate-500">Start your padel community today</p>

@@ -44,7 +44,7 @@ export default async function AdminPage() {
         </div>
         <div>
           <h1 className="text-3xl font-black text-slate-900">Super Admin</h1>
-          <p className="text-slate-500 text-sm">Full visibility across PadelTribe</p>
+          <p className="text-slate-500 text-sm">Full visibility across CoPadel</p>
         </div>
       </div>
 

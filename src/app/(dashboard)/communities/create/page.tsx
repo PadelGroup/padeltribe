@@ -47,7 +47,7 @@ export default function CreateCommunityPage() {
             <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="e.g. London Padel Club"
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
             {name && (
-              <p className="text-xs text-slate-400 mt-1">URL: padeltribe.com/communities/<span className="text-sky-600">{slug}</span></p>
+              <p className="text-xs text-slate-400 mt-1">URL: copadel.com/communities/<span className="text-sky-600">{slug}</span></p>
             )}
           </div>
 

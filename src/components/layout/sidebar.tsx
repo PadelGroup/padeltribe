@@ -31,7 +31,7 @@ export default function DashboardSidebar({ profile }: Props) {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shadow-sm">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-xl">🏓</span>
-          <span className="font-bold gradient-text">PadelTribe</span>
+          <span className="font-bold gradient-text">CoPadel</span>
         </Link>
         <button onClick={() => setOpen(!open)} className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors">
           {open ? '✕' : '☰'}
@@ -46,7 +46,7 @@ export default function DashboardSidebar({ profile }: Props) {
         <div className="px-6 py-6 border-b border-slate-100">
           <Link href="/dashboard" className="flex items-center gap-2">
             <span className="text-2xl">🏓</span>
-            <span className="text-xl font-bold gradient-text">PadelTribe</span>
+            <span className="text-xl font-bold gradient-text">CoPadel</span>
           </Link>
         </div>
 

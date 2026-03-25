@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'PadelTribe — Your Padel Community',
+  title: 'CoPadel — Your Padel Community',
   description: 'Create and manage your padel community, organize tournaments, and track rankings.',
   icons: { icon: '/favicon.ico' },
 };

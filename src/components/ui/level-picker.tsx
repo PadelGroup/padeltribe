@@ -19,7 +19,7 @@ export default function LevelPicker({ value, onChange, readOnly = false }: Props
               type="button"
               disabled={readOnly}
               onClick={() => !readOnly && onChange(level.value)}
-              title={`${level.label} — ${level.badge}\n${level.description}`}
+              title={`${level.badge}\n${level.description}`}
               className={`relative flex flex-col items-center justify-center rounded-xl py-3 px-1 border-2 transition-all
                 ${readOnly ? 'cursor-default' : 'cursor-pointer hover:scale-105'}
                 ${isActive
@@ -50,14 +50,9 @@ export default function LevelPicker({ value, onChange, readOnly = false }: Props
             {value}
           </span>
           <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="text-sm font-semibold text-[#1A1A1A]">
-                {PADEL_LEVELS[value - 1]?.label} — {PADEL_LEVELS[value - 1]?.badge}
-              </p>
-              <span className="text-[10px] font-medium text-[#9CA3AF] bg-white border border-[#E8E4DF] rounded px-1.5 py-0.5">
-                Viya {PADEL_LEVELS[value - 1]?.viyaRef}
-              </span>
-            </div>
+            <p className="text-sm font-semibold text-[#1A1A1A]">
+              {PADEL_LEVELS[value - 1]?.badge}
+            </p>
             <p className="text-xs text-[#616161] mt-0.5">{PADEL_LEVELS[value - 1]?.description}</p>
           </div>
         </div>

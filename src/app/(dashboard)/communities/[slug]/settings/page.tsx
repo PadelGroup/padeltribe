@@ -69,17 +69,33 @@ export default function CommunitySettingsPage() {
     const ext = file.name.split('.').pop();
     const path = `${community.id}/${Date.now()}.${ext}`;
     const { data, error } = await supabase.storage.from('community-logos').upload(path, file, { upsert: true });
-    if (!error && data) {
+    if (error) {
+      alert('Upload failed: ' + error.message);
+      setUploading(false);
+      return;
+    }
+    if (data) {
       const { data: urlData } = supabase.storage.from('community-logos').getPublicUrl(path);
-      setLogoUrl(urlData.publicUrl);
+      const newUrl = urlData.publicUrl;
+      setLogoUrl(newUrl);
       setLogoPreset('');
+      // Auto-save logo immediately
+      await supabase.from('communities').update({ logo_url: newUrl, logo_preset: null }).eq('id', community.id);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
     }
     setUploading(false);
   };
 
-  const handlePresetSelect = (presetId: string) => {
+  const handlePresetSelect = async (presetId: string) => {
     setLogoPreset(presetId);
     setLogoUrl('');
+    // Auto-save preset immediately
+    if (community) {
+      await supabase.from('communities').update({ logo_preset: presetId, logo_url: null }).eq('id', community.id);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    }
   };
 
   const handleSave = async (e: React.FormEvent) => {

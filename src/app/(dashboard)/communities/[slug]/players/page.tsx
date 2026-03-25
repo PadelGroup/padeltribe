@@ -248,10 +248,13 @@ export default function PlayersPage() {
                       <button
                         onClick={() => toggleAdminRole(member)}
                         disabled={actionLoading === member.id}
-                        className={`p-1.5 rounded-lg transition-all text-xs disabled:opacity-50 ${member.role === 'admin' ? 'text-amber-500 hover:bg-amber-50' : 'text-[#9CA3AF] hover:text-amber-500 hover:bg-amber-50'}`}
-                        title={member.role === 'admin' ? 'Remove admin rights' : 'Make admin'}
+                        className={`px-2.5 py-1.5 rounded-lg transition-all text-xs font-semibold disabled:opacity-50 ${
+                          member.role === 'admin'
+                            ? 'bg-amber-50 text-amber-600 border border-amber-200 hover:bg-amber-100'
+                            : 'bg-[#F9F7F5] text-[#616161] border border-[#E8E4DF] hover:bg-amber-50 hover:text-amber-600 hover:border-amber-200'
+                        }`}
                       >
-                        👑
+                        {actionLoading === member.id ? '...' : member.role === 'admin' ? '👑 Admin' : '👑 Make Admin'}
                       </button>
                     )}
                     {isAdmin && member.role !== 'admin' && member.user_id !== currentUserId && (

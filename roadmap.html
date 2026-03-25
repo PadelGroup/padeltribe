@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoPadel Roadmap</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F5F2EE; padding: 32px 16px; min-height: 100vh; }
+  h1 { font-size: 22px; font-weight: 900; color: #1A1A1A; margin-bottom: 4px; }
+  .subtitle { color: #9CA3AF; font-size: 13px; margin-bottom: 28px; }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #9CA3AF; margin-bottom: 10px; padding-left: 4px; }
+  .card { background: #fff; border: 1px solid #E8E4DF; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; }
+  .card:last-child { margin-bottom: 0; }
+  .badge { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .card-body { flex: 1; }
+  .card-title { font-size: 14px; font-weight: 700; color: #1A1A1A; margin-bottom: 3px; }
+  .card-desc { font-size: 12px; color: #9CA3AF; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-top: 6px; }
+  .tag-done    { background: #F0FDF4; color: #16A34A; border: 1px solid #BBF7D0; }
+  .tag-ready   { background: #FFF7ED; color: #F97316; border: 1px solid #FED7AA; }
+  .tag-idea    { background: #F1F5F9; color: #64748B; border: 1px solid #E2E8F0; }
+  .tag-medium  { background: #EEF2FF; color: #6366F1; border: 1px solid #C7D2FE; }
+</style>
+</head>
+<body>
+  <h1>🏓 CoPadel Roadmap</h1>
+  <p class="subtitle">Feature tracker — updated March 2026</p>
+
+  <div class="section">
+    <div class="section-title">✅ Shipped — in testing</div>
+
+    <div class="card"><span class="badge">🖼️</span><div class="card-body"><div class="card-title">Community logos</div><div class="card-desc">Preset SVG icons + custom upload. Color-tinted display across all community views.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">⚙️</span><div class="card-body"><div class="card-title">Community settings</div><div class="card-desc">Name, description, color, location (country/city/club), social links (WhatsApp, Telegram, Instagram, Facebook, Website), public toggle.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">🔗</span><div class="card-body"><div class="card-title">Multi-use invite links</div><div class="card-desc">Invite links can be used by multiple players. Optional max-use cap. Admins can disable manually.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">🌐</span><div class="card-body"><div class="card-title">Public join page</div><div class="card-desc">/join/[slug] — public discovery page with community info. Players can request to join with a message. Admins approve or reject from the Players tab.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">👑</span><div class="card-body"><div class="card-title">Co-admin role</div><div class="card-desc">Admins can promote players to co-admin. Same rights as owner except deleting the community.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">📍</span><div class="card-body"><div class="card-title">Tournament venue + price</div><div class="card-desc">Google Maps link and price per person on each tournament. Shown as badges on the detail page.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">🗓️</span><div class="card-body"><div class="card-title">Tournament date & time</div><div class="card-desc">Date/time picker on creation. Shown as a badge on the tournament detail page.</div><span class="tag tag-done">Done</span></div></div>
+    <div class="card"><span class="badge">🎯</span><div class="card-body"><div class="card-title">Level badges (D → A)</div><div class="card-desc">7-level system: D, D+, C, C+, B, B+, A with official descriptions. Shown as compact badges throughout the app.</div><span class="tag tag-done">Done</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💡 Ideas</div>
+
+    <div class="card"><span class="badge">📬</span><div class="card-body"><div class="card-title">Tournament email reminders</div><div class="card-desc">Edge function already deployed. Sends 24h-before reminder to all registered players. Needs verified sending domain + Supabase secrets: RESEND_API_KEY, APP_URL, RESEND_FROM.</div><span class="tag tag-ready">Needs domain + API key</span></div></div>
+
+    <div class="card"><span class="badge">🗺️</span><div class="card-body"><div class="card-title">City & country rankings</div><div class="card-desc">Global leaderboard aggregated across all communities in the same city. Rankings split by player level (D, C, B, A) so you compete within your tier. Players appear automatically in rankings for every city they've played in. Dashboard city switcher to browse other locations.</div><span class="tag tag-medium">Medium complexity</span></div></div>
+
+    <div class="card"><span class="badge">🔔</span><div class="card-body"><div class="card-title">Push notifications</div><div class="card-desc">In-app or mobile push for tournament start, new round generated, join request approved.</div><span class="tag tag-idea">Idea</span></div></div>
+
+    <div class="card"><span class="badge">📅</span><div class="card-body"><div class="card-title">Player availability calendar</div><div class="card-desc">Players mark days they're free to play. Admins can see who's available when scheduling tournaments.</div><span class="tag tag-idea">Idea</span></div></div>
+
+    <div class="card"><span class="badge">📊</span><div class="card-body"><div class="card-title">Match history per player</div><div class="card-desc">Full history of tournaments and match results visible on each player's profile.</div><span class="tag tag-idea">Idea</span></div></div>
+
+    <div class="card"><span class="badge">📣</span><div class="card-body"><div class="card-title">Community announcements</div><div class="card-desc">Admins can post news/announcements visible to all community members on the home screen.</div><span class="tag tag-idea">Idea</span></div></div>
+
+    <div class="card"><span class="badge">⏱️</span><div class="card-body"><div class="card-title">Tournament waiting list</div><div class="card-desc">When a tournament is full, players can join a waiting list and auto-register if someone drops out.</div><span class="tag tag-idea">Idea</span></div></div>
+
+    <div class="card"><span class="badge">🤖</span><div class="card-body"><div class="card-title">WhatsApp / Telegram bot</div><div class="card-desc">Score entry and tournament updates via chat bot — no need to open the app mid-game.</div><span class="tag tag-idea">Idea</span></div></div>
+  </div>
+</body>
+</html>

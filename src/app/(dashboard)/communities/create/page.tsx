@@ -34,7 +34,12 @@ export default function CreateCommunityPage() {
     const ext = file.name.split('.').pop();
     const path = `${user.id}/${Date.now()}.${ext}`;
     const { data, error } = await supabase.storage.from('community-logos').upload(path, file, { upsert: true });
-    if (!error && data) {
+    if (error) {
+      alert('Upload failed: ' + error.message);
+      setUploading(false);
+      return;
+    }
+    if (data) {
       const { data: urlData } = supabase.storage.from('community-logos').getPublicUrl(path);
       setLogoUrl(urlData.publicUrl);
       setLogoPreset('');

@@ -21,7 +21,8 @@ export default async function RankingsPage({ params }: { params: Promise<{ slug:
     .eq('community_id', community.id)
     .order('ranking_position');
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
   const shareUrl = `${appUrl}/share/${slug}/rankings`;
 
   const medals = ['🥇', '🥈', '🥉'];

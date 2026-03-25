@@ -1,10 +1,11 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Profile } from '@/types';
-import { getInitials, getAvatarUrl } from '@/lib/utils';
+import { getAvatarUrl } from '@/lib/utils';
 
 interface Props { profile: Profile | null; }
 
@@ -28,25 +29,23 @@ export default function DashboardSidebar({ profile }: Props) {
   return (
     <>
       {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shadow-sm">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="text-xl">🏓</span>
-          <span className="font-bold gradient-text">CoPadel</span>
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 py-3 bg-[#F5F2EE] border-b border-[#E8E4DF] shadow-sm">
+        <Link href="/dashboard" className="flex items-center">
+          <Image src="/logo.svg" alt="CoPadel" width={100} height={36} className="h-8 w-auto" />
         </Link>
-        <button onClick={() => setOpen(!open)} className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors">
+        <button onClick={() => setOpen(!open)} className="p-2 bg-white hover:bg-[#FFF4EC] rounded-lg text-[#616161] transition-colors border border-[#E8E4DF]">
           {open ? '✕' : '☰'}
         </button>
       </div>
 
       {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 h-full w-64 z-30 bg-white border-r border-slate-200 shadow-sm flex flex-col transition-transform duration-300
+      <aside className={`fixed top-0 left-0 h-full w-64 z-30 bg-white border-r border-[#E8E4DF] shadow-sm flex flex-col transition-transform duration-300
         ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
 
         {/* Logo */}
-        <div className="px-6 py-6 border-b border-slate-100">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="text-2xl">🏓</span>
-            <span className="text-xl font-bold gradient-text">CoPadel</span>
+        <div className="px-6 py-5 border-b border-[#E8E4DF]">
+          <Link href="/dashboard" className="flex items-center">
+            <Image src="/logo.svg" alt="CoPadel" width={140} height={50} className="h-12 w-auto" />
           </Link>
         </div>
 
@@ -58,8 +57,8 @@ export default function DashboardSidebar({ profile }: Props) {
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium
                   ${active
-                    ? 'bg-gradient-to-r from-sky-100 to-orange-50 text-sky-700 border border-sky-200'
-                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}`}>
+                    ? 'bg-[#FFF4EC] text-[#F97316] border border-[#FDBA74]'
+                    : 'text-[#616161] hover:text-[#1A1A1A] hover:bg-[#F5F2EE]'}`}>
                 <span className="text-base">{item.icon}</span>
                 {item.label}
               </Link>
@@ -70,8 +69,8 @@ export default function DashboardSidebar({ profile }: Props) {
             <Link href="/admin" onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium
                 ${pathname === '/admin'
-                  ? 'bg-gradient-to-r from-sky-100 to-orange-50 text-sky-700 border border-sky-200'
-                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}`}>
+                  ? 'bg-[#FFF4EC] text-[#F97316] border border-[#FDBA74]'
+                  : 'text-[#616161] hover:text-[#1A1A1A] hover:bg-[#F5F2EE]'}`}>
               <span className="text-base">🛡️</span>
               Admin Panel
             </Link>
@@ -79,16 +78,17 @@ export default function DashboardSidebar({ profile }: Props) {
         </nav>
 
         {/* Profile & Sign Out */}
-        <div className="px-4 py-4 border-t border-slate-100">
+        <div className="px-4 py-4 border-t border-[#E8E4DF]">
           <div className="flex items-center gap-3 px-4 py-3 mb-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={profile?.avatar_url || getAvatarUrl(profile?.name || 'User')}
               alt="" className="w-8 h-8 rounded-full object-cover" />
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-slate-900 truncate">{profile?.name || 'User'}</p>
-              <p className="text-xs text-slate-400 truncate">{profile?.phone || 'Admin'}</p>
+              <p className="text-sm font-medium text-[#1A1A1A] truncate">{profile?.name || 'User'}</p>
+              <p className="text-xs text-[#616161] truncate">{profile?.phone || profile?.email || ''}</p>
             </div>
           </div>
-          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
+          <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-4 py-2 text-sm text-[#616161] hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
             <span>🚪</span> Sign Out
           </button>
         </div>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 
 type Step = 'choose' | 'email' | 'phone' | 'otp';
@@ -41,63 +42,62 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-orange-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#F5F2EE] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <span className="text-2xl">🏓</span>
-            <span className="text-xl font-bold gradient-text">CoPadel</span>
+          <Link href="/" className="inline-flex items-center justify-center mb-6">
+            <Image src="/logo.svg" alt="CoPadel" width={160} height={58} className="h-14 w-auto" />
           </Link>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back</h1>
-          <p className="text-slate-500">Sign in to your account</p>
+          <h1 className="text-3xl font-bold text-[#1A1A1A] mb-2">Welcome back</h1>
+          <p className="text-[#616161]">Sign in to your account</p>
         </div>
-        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-8">
+        <div className="bg-white border border-[#E8E4DF] shadow-sm rounded-2xl p-8">
           {step === 'choose' && (
             <div className="space-y-4">
-              <button onClick={() => setStep('email')} className="w-full py-4 px-6 bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 rounded-xl text-left flex items-center gap-4 transition-all">
+              <button onClick={() => setStep('email')} className="w-full py-4 px-6 bg-white border border-slate-200 hover:border-[#F97316] hover:bg-[#FFF4EC] rounded-xl text-left flex items-center gap-4 transition-all">
                 <span className="text-2xl">✉️</span>
-                <div><div className="font-semibold text-slate-900">Email & Password</div><div className="text-sm text-slate-500">For admins and existing accounts</div></div>
+                <div><div className="font-semibold text-slate-900">Email & Password</div><div className="text-sm text-[#616161]">For admins and existing accounts</div></div>
               </button>
               <button onClick={() => setStep('phone')} className="w-full py-4 px-6 bg-white border border-slate-200 hover:border-orange-300 hover:bg-orange-50 rounded-xl text-left flex items-center gap-4 transition-all">
                 <span className="text-2xl">📱</span>
-                <div><div className="font-semibold text-slate-900">Phone Number</div><div className="text-sm text-slate-500">Sign in with OTP — fast & easy</div></div>
+                <div><div className="font-semibold text-slate-900">Phone Number</div><div className="text-sm text-[#616161]">Sign in with OTP — fast & easy</div></div>
               </button>
               <div className="text-center pt-2">
-                <span className="text-slate-500 text-sm">No account? </span>
-                <Link href="/register" className="text-sky-600 hover:text-sky-500 text-sm font-medium">Register as Admin</Link>
+                <span className="text-[#616161] text-sm">No account? </span>
+                <Link href="/register" className="text-[#F97316] hover:text-[#EA6C10] text-sm font-medium">Register as Admin</Link>
               </div>
             </div>
           )}
           {step === 'email' && (
             <form onSubmit={handleEmailLogin} className="space-y-4">
-              <button type="button" onClick={() => setStep('choose')} className="text-slate-500 hover:text-slate-900 text-sm">← Back</button>
+              <button type="button" onClick={() => setStep('choose')} className="text-[#616161] hover:text-[#1A1A1A] text-sm">← Back</button>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Email</label>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="admin@example.com"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
+                  className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Password</label>
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} required placeholder="••••••••"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
+                  className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors" />
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-sky-500 to-orange-500 hover:from-sky-400 hover:to-orange-400 text-white rounded-xl font-bold disabled:opacity-50 transition-all">
+              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r bg-[#F97316] hover:bg-[#EA6C10] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
           )}
           {step === 'phone' && (
             <form onSubmit={handlePhoneSendOtp} className="space-y-4">
-              <button type="button" onClick={() => setStep('choose')} className="text-slate-500 hover:text-slate-900 text-sm">← Back</button>
+              <button type="button" onClick={() => setStep('choose')} className="text-[#616161] hover:text-[#1A1A1A] text-sm">← Back</button>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Phone Number</label>
                 <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required placeholder="+1234567890"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-orange-400 transition-colors" />
+                  className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-orange-400 transition-colors" />
                 <p className="text-xs text-slate-400 mt-1">Include country code (e.g. +44 for UK)</p>
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-sky-500 to-orange-500 hover:from-sky-400 hover:to-orange-400 text-white rounded-xl font-bold disabled:opacity-50 transition-all">
+              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r bg-[#F97316] hover:bg-[#EA6C10] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
                 {loading ? 'Sending...' : 'Send OTP Code'}
               </button>
             </form>
@@ -109,15 +109,15 @@ export default function LoginPage() {
                 <p className="text-slate-600 text-sm">Code sent to <strong>{phone}</strong></p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Enter OTP Code</label>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Enter OTP Code</label>
                 <input type="text" value={otp} onChange={e => setOtp(e.target.value)} required placeholder="123456" maxLength={6}
-                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-center text-2xl tracking-widest placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
+                  className="w-full px-4 py-4 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-slate-900 text-center text-2xl tracking-widest placeholder:text-slate-400 focus:border-[#F97316] transition-colors" />
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-sky-500 to-orange-500 text-white rounded-xl font-bold disabled:opacity-50 transition-all">
+              <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r bg-[#F97316] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
                 {loading ? 'Verifying...' : 'Verify & Sign In'}
               </button>
-              <button type="button" onClick={() => setStep('phone')} className="w-full text-slate-500 hover:text-slate-900 text-sm">Change number</button>
+              <button type="button" onClick={() => setStep('phone')} className="w-full text-[#616161] hover:text-[#1A1A1A] text-sm">Change number</button>
             </form>
           )}
         </div>

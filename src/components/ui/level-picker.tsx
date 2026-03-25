@@ -50,9 +50,14 @@ export default function LevelPicker({ value, onChange, readOnly = false }: Props
             {value}
           </span>
           <div>
-            <p className="text-sm font-semibold text-[#1A1A1A]">
-              {PADEL_LEVELS[value - 1]?.label} — {PADEL_LEVELS[value - 1]?.badge}
-            </p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="text-sm font-semibold text-[#1A1A1A]">
+                {PADEL_LEVELS[value - 1]?.label} — {PADEL_LEVELS[value - 1]?.badge}
+              </p>
+              <span className="text-[10px] font-medium text-[#9CA3AF] bg-white border border-[#E8E4DF] rounded px-1.5 py-0.5">
+                Viya {PADEL_LEVELS[value - 1]?.viyaRef}
+              </span>
+            </div>
             <p className="text-xs text-[#616161] mt-0.5">{PADEL_LEVELS[value - 1]?.description}</p>
           </div>
         </div>

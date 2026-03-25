@@ -24,13 +24,62 @@ export interface Profile {
 }
 
 export const PADEL_LEVELS = [
-  { value: 1, label: 'Level 1', badge: 'Beginner', color: '#94A3B8', description: 'Just starting out. Learning to keep the ball in play and basic rules.' },
-  { value: 2, label: 'Level 2', badge: 'Beginner+', color: '#64748B', description: 'Can rally consistently. Learning forehand, backhand and basic positioning.' },
-  { value: 3, label: 'Level 3', badge: 'Intermediate', color: '#22C55E', description: 'Understands basic tactics. Uses walls occasionally. Plays socially.' },
-  { value: 4, label: 'Level 4', badge: 'Intermediate+', color: '#16A34A', description: 'Consistent groundstrokes. Uses side and back walls. Plays regular matches.' },
-  { value: 5, label: 'Level 5', badge: 'Advanced', color: '#F97316', description: 'Strong technical base. Plays at net confidently. Enters local tournaments.' },
-  { value: 6, label: 'Level 6', badge: 'Advanced+', color: '#EA580C', description: 'High consistency. Uses all shots. Competes in regional tournaments.' },
-  { value: 7, label: 'Level 7', badge: 'Elite', color: '#DC2626', description: 'Competition level. Near-professional skills. National/international tournaments.' },
+  {
+    value: 1,
+    label: 'Level 1',
+    badge: 'Beginner',
+    viyaRef: 'D (0–1)',
+    color: '#94A3B8',
+    description: 'Introduction to padel. Can hit basic shots (serve, forehand, backhand, volley) but lacks consistency and control. Still learning positioning, game strategy, and rules. Stays at the back of the court.',
+  },
+  {
+    value: 2,
+    label: 'Level 2',
+    badge: 'Beginner+',
+    viyaRef: 'D+ (1–1.5)',
+    color: '#64748B',
+    description: 'Starting to play rallies and understand game dynamics. Solid contact point but lacks depth and direction control. Understands net play basics and begins using the lob to move opponents. Learning back and double glass shots.',
+  },
+  {
+    value: 3,
+    label: 'Level 3',
+    badge: 'Intermediate',
+    viyaRef: 'C- / C (2–3)',
+    color: '#22C55E',
+    description: 'Good groundstroke control. Can maintain medium rallies and starting to use padel-specific shots (Bandeja, Bajada). Understands net play and transitions between back and front of court. Uses lob consistently to recover net position.',
+  },
+  {
+    value: 4,
+    label: 'Level 4',
+    badge: 'Intermediate+',
+    viyaRef: 'C Strong / C+ (3.5–4)',
+    color: '#16A34A',
+    description: 'Can sustain rallies and control pace. Good shot selection for overheads — knows when to use Bandeja vs Smash. Understands court positioning and teamwork. Starts anticipating opponents. Counterattacks from back to front consistently.',
+  },
+  {
+    value: 5,
+    label: 'Level 5',
+    badge: 'Advanced',
+    viyaRef: 'B- / B (4.5–5)',
+    color: '#F97316',
+    description: 'Changes pace of the game with varied shot selection and good decision-making. Solid attack and defence — Vibora, Chiquita, Drop Shot in the arsenal. Good awareness of opponents\' weaknesses. Fast movement covering all three court areas.',
+  },
+  {
+    value: 6,
+    label: 'Level 6',
+    badge: 'Advanced+',
+    viyaRef: 'B+ (5.5)',
+    color: '#EA580C',
+    description: 'Aggressive net play and extremely solid defence. Absolute control over smashes (Power Smash and Rulo). Can dictate points against elite players. Anticipates opponents\' patterns and converts defensive situations into winners.',
+  },
+  {
+    value: 7,
+    label: 'Level 7',
+    badge: 'Elite',
+    viyaRef: 'A / A+ (6+)',
+    color: '#DC2626',
+    description: 'Competitive at the highest amateur or professional level. Top national / international ranked player (Top 25 UAE, FIP ranked, or WPT). Complete mastery of all padel skills. Fast, agile, physically dominant — no weaknesses.',
+  },
 ];
 
 export interface Community {

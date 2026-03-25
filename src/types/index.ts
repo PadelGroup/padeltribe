@@ -19,8 +19,19 @@ export interface Profile {
   phone?: string;
   avatar_url?: string;
   gender?: Gender;
+  level?: number;
   created_at: string;
 }
+
+export const PADEL_LEVELS = [
+  { value: 1, label: 'Level 1', badge: 'Beginner', color: '#94A3B8', description: 'Just starting out. Learning to keep the ball in play and basic rules.' },
+  { value: 2, label: 'Level 2', badge: 'Beginner+', color: '#64748B', description: 'Can rally consistently. Learning forehand, backhand and basic positioning.' },
+  { value: 3, label: 'Level 3', badge: 'Intermediate', color: '#22C55E', description: 'Understands basic tactics. Uses walls occasionally. Plays socially.' },
+  { value: 4, label: 'Level 4', badge: 'Intermediate+', color: '#16A34A', description: 'Consistent groundstrokes. Uses side and back walls. Plays regular matches.' },
+  { value: 5, label: 'Level 5', badge: 'Advanced', color: '#F97316', description: 'Strong technical base. Plays at net confidently. Enters local tournaments.' },
+  { value: 6, label: 'Level 6', badge: 'Advanced+', color: '#EA580C', description: 'High consistency. Uses all shots. Competes in regional tournaments.' },
+  { value: 7, label: 'Level 7', badge: 'Elite', color: '#DC2626', description: 'Competition level. Near-professional skills. National/international tournaments.' },
+];
 
 export interface Community {
   id: string;

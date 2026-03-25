@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import AvatarPicker from '@/components/ui/avatar-picker';
+import LevelPicker from '@/components/ui/level-picker';
 import { SIDE_OPTIONS } from '@/lib/avatars';
 import type { Invite } from '@/types';
 
@@ -22,6 +23,7 @@ export default function InvitePage() {
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('');
   const [side, setSide] = useState('both');
+  const [level, setLevel] = useState<number | null>(null);
   const [avatarPreset, setAvatarPreset] = useState('racket');
   const [avatarUrl, setAvatarUrl] = useState('');
   const [userId, setUserId] = useState('');
@@ -110,6 +112,7 @@ export default function InvitePage() {
       preferred_side: side,
       avatar_preset: avatarPreset || null,
       avatar_url: avatarUrl || null,
+      level: level || null,
     }).eq('id', user.id);
     await joinCommunity(user.id, invite!.community_id, invite!.id);
   };
@@ -267,11 +270,17 @@ export default function InvitePage() {
             <div className="flex gap-2">
               {[{ v: 'male', l: '♂ Male' }, { v: 'female', l: '♀ Female' }, { v: 'other', l: '⚧ Other' }, { v: '', l: '—' }].map(g => (
                 <button key={g.v} type="button" onClick={() => setGender(g.v)}
-                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${gender === g.v ? 'bg-sky-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                  className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all ${gender === g.v ? 'bg-[#F97316] text-white' : 'bg-[#F5F2EE] text-[#616161] hover:bg-[#E8E4DF]'}`}>
                   {g.l}
                 </button>
               ))}
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Your Padel Level</label>
+            <p className="text-xs text-[#616161] mb-3">Select your skill level (you can change this later)</p>
+            <LevelPicker value={level} onChange={setLevel} />
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}

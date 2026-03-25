@@ -19,6 +19,7 @@ export default function InvitePage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('');
   const [side, setSide] = useState('both');
   const [avatarPreset, setAvatarPreset] = useState('racket');
@@ -104,6 +105,7 @@ export default function InvitePage() {
     if (!user) { setError('Not authenticated'); setLoading(false); return; }
     await supabase.from('profiles').update({
       name,
+      phone: phone || null,
       gender: gender || null,
       preferred_side: side,
       avatar_preset: avatarPreset || null,
@@ -238,6 +240,12 @@ export default function InvitePage() {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">Your Name *</label>
             <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="John Smith"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number <span className="text-slate-400 font-normal">(optional)</span></label>
+            <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+971 50 123 4567"
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
           </div>
 

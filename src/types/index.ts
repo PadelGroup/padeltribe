@@ -15,6 +15,7 @@ export type Gender = 'male' | 'female' | 'other';
 export interface Profile {
   id: string;
   name: string;
+  email?: string;
   phone?: string;
   avatar_url?: string;
   gender?: Gender;

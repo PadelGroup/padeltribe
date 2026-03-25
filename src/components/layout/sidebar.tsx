@@ -65,6 +65,17 @@ export default function DashboardSidebar({ profile }: Props) {
               </Link>
             );
           })}
+          {/* Super admin link — only for owner */}
+          {profile?.email === 'dimashevch@gmail.com' && (
+            <Link href="/admin" onClick={() => setOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium
+                ${pathname === '/admin'
+                  ? 'bg-gradient-to-r from-sky-100 to-orange-50 text-sky-700 border border-sky-200'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}`}>
+              <span className="text-base">🛡️</span>
+              Admin Panel
+            </Link>
+          )}
         </nav>
 
         {/* Profile & Sign Out */}

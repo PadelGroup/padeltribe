@@ -10,6 +10,7 @@ export default function ProfilePage() {
   const supabase = createClient();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('');
   const [side, setSide] = useState('both');
   const [avatarPreset, setAvatarPreset] = useState('');
@@ -27,6 +28,7 @@ export default function ProfilePage() {
         if (!data) return;
         setProfile(data);
         setName(data.name || '');
+        setPhone((data as { phone?: string }).phone || '');
         setGender((data as { gender?: string }).gender || '');
         setSide((data as { preferred_side?: string }).preferred_side || 'both');
         setAvatarPreset((data as { avatar_preset?: string }).avatar_preset || '');
@@ -60,6 +62,7 @@ export default function ProfilePage() {
     if (!user) return;
     await supabase.from('profiles').update({
       name,
+      phone: phone || null,
       gender: gender || null,
       preferred_side: side,
       avatar_preset: avatarPreset || null,
@@ -105,6 +108,12 @@ export default function ProfilePage() {
               <label className="block text-sm font-medium text-slate-700 mb-2">Display Name</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)} required
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:border-sky-400 transition-colors" />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number <span className="text-slate-400 font-normal">(optional)</span></label>
+              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+971 50 123 4567"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:border-sky-400 transition-colors" />
             </div>
 
             <div>

@@ -40,6 +40,7 @@ export interface Community {
   description?: string;
   admin_id: string;
   logo_url?: string;
+  logo_preset?: string;
   color: string;
   created_at: string;
   member_count?: number;

@@ -1,13 +1,13 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-orange-50 flex flex-col">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-5 max-w-6xl mx-auto w-full">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">🏓</span>
-          <span className="text-xl font-bold gradient-text">CoPadel</span>
+        <div className="flex items-center">
+          <Image src="/logo.svg" alt="CoPadel" width={140} height={50} className="h-10 w-auto" />
         </div>
         <div className="flex gap-3">
           <Link href="/login" className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900 transition-colors">

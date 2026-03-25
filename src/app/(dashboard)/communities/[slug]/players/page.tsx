@@ -15,16 +15,20 @@ export default function PlayersPage() {
 
   const [community, setCommunity] = useState<Community | null>(null);
   const [members, setMembers] = useState<CommunityMember[]>([]);
+  const [joinRequests, setJoinRequests] = useState<{ id: string; user_id: string; message?: string; created_at: string; profile?: { name?: string; email?: string } }[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState('');
   const [inviteUrl, setInviteUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
-  const [editingLevel, setEditingLevel] = useState<string | null>(null); // member.id being edited
+  const [editingLevel, setEditingLevel] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
+    setCurrentUserId(user.id);
     const { data: comm } = await supabase.from('communities').select('*').eq('slug', slug).single();
     if (!comm) return;
     setCommunity(comm);
@@ -34,6 +38,12 @@ export default function PlayersPage() {
       .select('*, profile:profiles(id, name, phone, avatar_url, avatar_preset, preferred_side, gender, level)')
       .eq('community_id', comm.id).order('joined_at');
     setMembers((membersData || []) as CommunityMember[]);
+    if (myMembership?.role === 'admin') {
+      const { data: requests } = await supabase.from('join_requests')
+        .select('*, profile:profiles(name, email)')
+        .eq('community_id', comm.id).eq('status', 'pending').order('created_at');
+      setJoinRequests(requests || []);
+    }
     setLoading(false);
   }, [slug, supabase]);
 
@@ -58,6 +68,33 @@ export default function PlayersPage() {
     if (!confirm('Remove this player from the community?')) return;
     await supabase.from('community_members').delete().eq('id', memberId);
     setMembers(prev => prev.filter(m => m.id !== memberId));
+  };
+
+  const toggleAdminRole = async (member: CommunityMember) => {
+    const newRole = member.role === 'admin' ? 'player' : 'admin';
+    if (newRole === 'admin' && !confirm(`Give ${member.profile?.name || 'this player'} admin rights?`)) return;
+    if (newRole === 'player' && !confirm(`Remove admin rights from ${member.profile?.name || 'this player'}?`)) return;
+    setActionLoading(member.id);
+    await supabase.from('community_members').update({ role: newRole }).eq('id', member.id);
+    setMembers(prev => prev.map(m => m.id === member.id ? { ...m, role: newRole as 'admin' | 'player' } : m));
+    setActionLoading(null);
+  };
+
+  const approveRequest = async (req: typeof joinRequests[0]) => {
+    if (!community) return;
+    setActionLoading(req.id);
+    await supabase.from('community_members').insert({ community_id: community.id, user_id: req.user_id, role: 'player' });
+    await supabase.from('join_requests').update({ status: 'approved', reviewed_at: new Date().toISOString() }).eq('id', req.id);
+    setJoinRequests(prev => prev.filter(r => r.id !== req.id));
+    await fetchData();
+    setActionLoading(null);
+  };
+
+  const rejectRequest = async (reqId: string) => {
+    setActionLoading(reqId);
+    await supabase.from('join_requests').update({ status: 'rejected', reviewed_at: new Date().toISOString() }).eq('id', reqId);
+    setJoinRequests(prev => prev.filter(r => r.id !== reqId));
+    setActionLoading(null);
   };
 
   const updatePlayerLevel = async (userId: string, newLevel: number) => {
@@ -126,6 +163,38 @@ export default function PlayersPage() {
         </div>
       )}
 
+      {/* Join Requests */}
+      {isAdmin && joinRequests.length > 0 && (
+        <div className="bg-white border border-[#FDBA74] rounded-2xl p-6">
+          <h2 className="text-lg font-bold text-[#1A1A1A] mb-1">Join Requests <span className="ml-2 px-2 py-0.5 bg-[#F97316] text-white text-xs font-bold rounded-full">{joinRequests.length}</span></h2>
+          <p className="text-[#616161] text-sm mb-4">People who found your community and requested to join</p>
+          <div className="space-y-3">
+            {joinRequests.map(req => (
+              <div key={req.id} className="flex items-start gap-4 p-3 bg-[#FFF4EC] border border-[#FDBA74] rounded-xl">
+                <div className="w-9 h-9 rounded-full bg-[#F97316] flex items-center justify-center text-white font-bold text-sm shrink-0">
+                  {req.profile?.name?.charAt(0)?.toUpperCase() || '?'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[#1A1A1A] text-sm">{req.profile?.name || 'Unknown'}</p>
+                  {req.profile?.email && <p className="text-xs text-[#9CA3AF]">{req.profile.email}</p>}
+                  {req.message && <p className="text-xs text-[#616161] mt-1 italic">"{req.message}"</p>}
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button onClick={() => approveRequest(req)} disabled={actionLoading === req.id}
+                    className="px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50">
+                    ✓ Approve
+                  </button>
+                  <button onClick={() => rejectRequest(req.id)} disabled={actionLoading === req.id}
+                    className="px-3 py-1.5 bg-white border border-[#E8E4DF] hover:border-red-300 hover:text-red-500 text-[#616161] rounded-lg text-xs font-medium transition-all disabled:opacity-50">
+                    ✕ Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Members List */}
       <div>
         <h2 className="text-lg font-bold text-[#1A1A1A] mb-3">Members</h2>
@@ -174,7 +243,18 @@ export default function PlayersPage() {
                         {isEditingThisMember ? '✕' : '🎯'}
                       </button>
                     )}
-                    {isAdmin && member.role !== 'admin' && (
+                    {/* Promote/demote — can't change own role */}
+                    {isAdmin && member.user_id !== currentUserId && (
+                      <button
+                        onClick={() => toggleAdminRole(member)}
+                        disabled={actionLoading === member.id}
+                        className={`p-1.5 rounded-lg transition-all text-xs disabled:opacity-50 ${member.role === 'admin' ? 'text-amber-500 hover:bg-amber-50' : 'text-[#9CA3AF] hover:text-amber-500 hover:bg-amber-50'}`}
+                        title={member.role === 'admin' ? 'Remove admin rights' : 'Make admin'}
+                      >
+                        👑
+                      </button>
+                    )}
+                    {isAdmin && member.role !== 'admin' && member.user_id !== currentUserId && (
                       <button onClick={() => removePlayer(member.id)} className="p-1.5 text-[#9CA3AF] hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">✕</button>
                     )}
                   </div>

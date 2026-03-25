@@ -15,6 +15,10 @@ export default function CreateCommunityPage() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [color, setColor] = useState(COLORS[0]);
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [clubName, setClubName] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   const [logoUrl, setLogoUrl] = useState('');
   const [logoPreset, setLogoPreset] = useState('ball');
   const [uploading, setUploading] = useState(false);
@@ -52,6 +56,10 @@ export default function CreateCommunityPage() {
       .from('communities')
       .insert({
         name, slug, description, color, admin_id: user.id,
+        country: country || null,
+        city: city || null,
+        club_name: clubName || null,
+        is_public: isPublic,
         logo_url: logoUrl || null,
         logo_preset: logoPreset || null,
       })
@@ -85,6 +93,31 @@ export default function CreateCommunityPage() {
             <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3}
               placeholder="Tell players what your community is about..."
               className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors resize-none" />
+          </div>
+
+          {/* Location */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-[#1A1A1A]">Location <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+            <div className="grid grid-cols-2 gap-3">
+              <input type="text" value={country} onChange={e => setCountry(e.target.value)} placeholder="Country"
+                className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors text-sm" />
+              <input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder="City"
+                className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors text-sm" />
+            </div>
+            <input type="text" value={clubName} onChange={e => setClubName(e.target.value)} placeholder="Club name (e.g. Dubai Padel Club)"
+              className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors text-sm" />
+          </div>
+
+          {/* Public toggle */}
+          <div className="flex items-center justify-between p-4 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl">
+            <div>
+              <p className="text-sm font-medium text-[#1A1A1A]">Public community</p>
+              <p className="text-xs text-[#616161]">Anyone can find and request to join via copadel.com/join/{slug || 'your-slug'}</p>
+            </div>
+            <button type="button" onClick={() => setIsPublic(!isPublic)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isPublic ? 'bg-[#F97316]' : 'bg-[#D1D5DB]'}`}>
+              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isPublic ? 'translate-x-6' : 'translate-x-1'}`} />
+            </button>
           </div>
 
           {/* Community Color */}

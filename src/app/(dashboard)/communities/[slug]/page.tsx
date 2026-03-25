@@ -38,6 +38,11 @@ export default async function CommunityPage({ params }: { params: Promise<{ slug
           <div>
             <h1 className="text-3xl font-black text-[#1A1A1A]">{community.name}</h1>
             <p className="text-[#616161]">{members?.length || 0} members • {isAdmin ? '👑 You are admin' : '🎾 Player'}</p>
+            {(community.city || community.country || community.club_name) && (
+              <p className="text-sm text-[#9CA3AF] mt-0.5">
+                {[community.club_name, community.city, community.country].filter(Boolean).join(' · ')}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">

@@ -26,50 +26,50 @@ export interface Profile {
 export const PADEL_LEVELS = [
   {
     value: 1,
-    label: 'Beginner',
-    badge: 'Beginner',
+    label: 'D',
+    badge: 'D',
     color: '#94A3B8',
     description: 'Introduction to padel. Can hit simple shots (serve, forehand, backhand, volley) but lacks consistency and control. Still learning basic rules, court positioning and game strategy. Stays at the back of the court.',
   },
   {
     value: 2,
-    label: 'Beginner+',
-    badge: 'Beginner+',
+    label: 'D+',
+    badge: 'D+',
     color: '#64748B',
     description: 'Starting to play rallies and understand the dynamic of the game. Solid contact point but lacks depth and direction control. Beginning to use the lob and understand net play. Learning back glass and double glass shots.',
   },
   {
     value: 3,
-    label: 'Intermediate',
-    badge: 'Intermediate',
+    label: 'C',
+    badge: 'C',
     color: '#22C55E',
     description: 'Good control on ground strokes. Can maintain medium rallies and starting to use padel-specific shots such as Bandeja and Bajada. Understands net play and transitions between the back and front of the court consistently.',
   },
   {
     value: 4,
-    label: 'Intermediate+',
-    badge: 'Intermediate+',
+    label: 'C+',
+    badge: 'C+',
     color: '#16A34A',
     description: 'Can sustain rallies and control pace. Good shot selection for overheads — knows when to use Bandeja vs Smash. Understands court positioning and basic teamwork. Starting to anticipate opponents and counterattack from back to front.',
   },
   {
     value: 5,
-    label: 'Advanced',
-    badge: 'Advanced',
+    label: 'B',
+    badge: 'B',
     color: '#F97316',
     description: 'Changes the pace of the game with varied shot selection and good decision-making. Full shot arsenal including Vibora, Chiquita and Drop Shot. Good awareness of opponents\' weaknesses. Fast movement across all three court areas.',
   },
   {
     value: 6,
-    label: 'Advanced+',
-    badge: 'Advanced+',
+    label: 'B+',
+    badge: 'B+',
     color: '#EA580C',
     description: 'Aggressive net play and extremely solid defence. Absolute control over all shots. Can dictate the point with different paces and strategies. Anticipates opponents\' patterns and converts defensive situations into winning shots.',
   },
   {
     value: 7,
-    label: 'Elite',
-    badge: 'Elite',
+    label: 'A',
+    badge: 'A',
     color: '#DC2626',
     description: 'Competitive at the highest amateur or professional level. Complete mastery of all padel skills executed with precision. Fast, agile and physically dominant — can compete in national, international or professional tournaments.',
   },
@@ -84,6 +84,10 @@ export interface Community {
   logo_url?: string;
   logo_preset?: string;
   color: string;
+  country?: string;
+  city?: string;
+  club_name?: string;
+  is_public?: boolean;
   created_at: string;
   member_count?: number;
 }
@@ -126,6 +130,8 @@ export interface Tournament {
   completed_at?: string;
   created_at: string;
   player_count?: number;
+  venue_url?: string;
+  price_per_person?: number;
 }
 
 export interface TournamentPlayer {

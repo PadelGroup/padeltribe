@@ -158,7 +158,23 @@ export default function TournamentPage() {
               <span className="text-3xl">{fmt?.emoji}</span>
               <h1 className="text-2xl font-black text-slate-900">{tournament.name}</h1>
             </div>
-            <p className="text-slate-500 mt-1">{fmt?.label} • {players.length} players registered</p>
+            <div className="flex items-center gap-3 flex-wrap mt-1">
+              <p className="text-[#616161] text-sm">{fmt?.label} • {players.length} players registered</p>
+              {tournament.price_per_person != null && tournament.price_per_person > 0 && (
+                <span className="text-xs font-semibold px-2 py-0.5 bg-[#FFF4EC] text-[#F97316] border border-[#FDBA74] rounded-lg">
+                  💰 ${tournament.price_per_person} / person
+                </span>
+              )}
+              {tournament.price_per_person === 0 && (
+                <span className="text-xs font-semibold px-2 py-0.5 bg-green-50 text-green-600 border border-green-200 rounded-lg">Free</span>
+              )}
+              {tournament.venue_url && (
+                <a href={tournament.venue_url} target="_blank" rel="noopener noreferrer"
+                  className="text-xs font-semibold px-2 py-0.5 bg-[#F9F7F5] text-[#616161] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] transition-colors">
+                  📍 View Venue
+                </a>
+              )}
+            </div>
           </div>
           <div className="flex gap-2 items-center flex-wrap">
             <span className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${tournament.status === 'active' ? 'text-red-600 bg-red-50 border-red-200' : tournament.status === 'completed' ? 'text-green-600 bg-green-50 border-green-200' : 'text-amber-600 bg-amber-50 border-amber-200'}`}>

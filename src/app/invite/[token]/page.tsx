@@ -8,7 +8,7 @@ import LevelPicker from '@/components/ui/level-picker';
 import { SIDE_OPTIONS } from '@/lib/avatars';
 import type { Invite } from '@/types';
 
-type Step = 'loading' | 'join' | 'register' | 'profile' | 'error' | 'used';
+type Step = 'loading' | 'join' | 'register' | 'profile' | 'error' | 'disabled' | 'already_member';
 
 export default function InvitePage() {
   const { token } = useParams<{ token: string }>();
@@ -37,12 +37,17 @@ export default function InvitePage() {
     const fetchInvite = async () => {
       const { data } = await supabase.from('invites').select('*, community:communities(*)').eq('token', token).single();
       if (!data) { setStep('error'); return; }
-      if (data.used) { setStep('used'); return; }
+      if (data.used) { setStep('disabled'); return; } // manually disabled by admin
       if (new Date(data.expires_at) < new Date()) { setStep('error'); return; }
+      // Check max_uses
+      if (data.max_uses !== null && data.use_count >= data.max_uses) { setStep('disabled'); return; }
       setInvite(data as Invite);
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
+        // Check if already a member
+        const { data: existing } = await supabase.from('community_members').select('id').eq('community_id', data.community_id).eq('user_id', user.id).single();
+        if (existing) { setStep('already_member'); return; }
         // Check if profile is complete
         const { data: profile } = await supabase.from('profiles').select('name').eq('id', user.id).single();
         if (!profile?.name) {
@@ -59,7 +64,8 @@ export default function InvitePage() {
 
   const joinCommunity = async (uid: string, communityId: string, inviteId: string) => {
     await supabase.from('community_members').upsert({ community_id: communityId, user_id: uid, role: 'player' });
-    await supabase.from('invites').update({ used: true, used_by: uid, used_at: new Date().toISOString() }).eq('id', inviteId);
+    // Increment use_count (multi-use — do NOT set used = true)
+    await supabase.rpc('increment_invite_use_count', { invite_id: inviteId });
     const comm = invite?.community as { slug?: string };
     router.push(`/communities/${comm?.slug || ''}`);
   };
@@ -146,12 +152,21 @@ export default function InvitePage() {
     </div>
   );
 
-  if (step === 'used') return wrapper(
-    <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-8 text-center">
+  if (step === 'disabled') return wrapper(
+    <div className="bg-white border border-[#E8E4DF] shadow-sm rounded-2xl p-8 text-center">
+      <div className="text-5xl mb-4">🔒</div>
+      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-2">Link Unavailable</h1>
+      <p className="text-[#616161] mb-6">This invite link has been disabled or reached its usage limit.</p>
+      <Link href="/login" className="px-6 py-3 bg-[#F97316] text-white rounded-xl font-bold">Sign In</Link>
+    </div>
+  );
+
+  if (step === 'already_member') return wrapper(
+    <div className="bg-white border border-[#E8E4DF] shadow-sm rounded-2xl p-8 text-center">
       <div className="text-5xl mb-4">✅</div>
-      <h1 className="text-2xl font-bold text-slate-900 mb-2">Already Used</h1>
-      <p className="text-slate-500 mb-6">This invite has already been used.</p>
-      <Link href="/login" className="px-6 py-3 bg-gradient-to-r from-sky-500 to-orange-500 text-white rounded-xl font-bold">Sign In</Link>
+      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-2">Already a Member</h1>
+      <p className="text-[#616161] mb-6">You&apos;re already in <strong>{communityName}</strong>.</p>
+      <Link href={`/communities/${(invite?.community as { slug?: string })?.slug || ''}`} className="px-6 py-3 bg-[#F97316] text-white rounded-xl font-bold">Go to Community →</Link>
     </div>
   );
 

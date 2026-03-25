@@ -16,6 +16,7 @@ export default function PublicJoinPage() {
   const [community, setCommunity] = useState<{
     id: string; name: string; slug: string; description?: string; color: string;
     logo_url?: string; logo_preset?: string; country?: string; city?: string; club_name?: string;
+    whatsapp_url?: string; telegram_url?: string; instagram_url?: string; facebook_url?: string; website_url?: string;
   } | null>(null);
   const [step, setStep] = useState<Step>('loading');
   const [message, setMessage] = useState('');
@@ -125,6 +126,15 @@ export default function PublicJoinPage() {
         </div>
         {community?.description && (
           <p className="text-[#616161] text-sm mt-4">{community.description}</p>
+        )}
+        {(community?.whatsapp_url || community?.telegram_url || community?.instagram_url || community?.facebook_url || community?.website_url) && (
+          <div className="flex items-center gap-2 mt-3 flex-wrap">
+            {community.whatsapp_url && <a href={community.whatsapp_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg text-[#616161] hover:border-[#F97316] hover:text-[#F97316] transition-colors">💬 WhatsApp</a>}
+            {community.telegram_url && <a href={community.telegram_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg text-[#616161] hover:border-[#F97316] hover:text-[#F97316] transition-colors">✈️ Telegram</a>}
+            {community.instagram_url && <a href={community.instagram_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg text-[#616161] hover:border-[#F97316] hover:text-[#F97316] transition-colors">📸 Instagram</a>}
+            {community.facebook_url && <a href={community.facebook_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg text-[#616161] hover:border-[#F97316] hover:text-[#F97316] transition-colors">📘 Facebook</a>}
+            {community.website_url && <a href={community.website_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg text-[#616161] hover:border-[#F97316] hover:text-[#F97316] transition-colors">🌐 Website</a>}
+          </div>
         )}
       </div>
 

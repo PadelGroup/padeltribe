@@ -22,6 +22,11 @@ export default function CommunitySettingsPage() {
   const [city, setCity] = useState('');
   const [clubName, setClubName] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState('');
+  const [telegramUrl, setTelegramUrl] = useState('');
+  const [instagramUrl, setInstagramUrl] = useState('');
+  const [facebookUrl, setFacebookUrl] = useState('');
+  const [websiteUrl, setWebsiteUrl] = useState('');
   const [logoUrl, setLogoUrl] = useState('');
   const [logoPreset, setLogoPreset] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -43,6 +48,11 @@ export default function CommunitySettingsPage() {
     setCity(comm.city || '');
     setClubName(comm.club_name || '');
     setIsPublic(comm.is_public || false);
+    setWhatsappUrl(comm.whatsapp_url || '');
+    setTelegramUrl(comm.telegram_url || '');
+    setInstagramUrl(comm.instagram_url || '');
+    setFacebookUrl(comm.facebook_url || '');
+    setWebsiteUrl(comm.website_url || '');
     setLogoUrl(comm.logo_url || '');
     setLogoPreset(comm.logo_preset || '');
     const { data: membership } = await supabase.from('community_members').select('role').eq('community_id', comm.id).eq('user_id', user.id).single();
@@ -84,6 +94,11 @@ export default function CommunitySettingsPage() {
       city: city || null,
       club_name: clubName || null,
       is_public: isPublic,
+      whatsapp_url: whatsappUrl.trim() || null,
+      telegram_url: telegramUrl.trim() || null,
+      instagram_url: instagramUrl.trim() || null,
+      facebook_url: facebookUrl.trim() || null,
+      website_url: websiteUrl.trim() || null,
       logo_url: logoUrl || null,
       logo_preset: logoPreset || null,
     }).eq('id', community.id);
@@ -145,6 +160,27 @@ export default function CommunitySettingsPage() {
             </div>
             <input type="text" value={clubName} onChange={e => setClubName(e.target.value)} placeholder="Club name (e.g. Dubai Padel Club)"
               className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors text-sm" />
+          </div>
+
+          {/* Social & Chat Links */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-[#1A1A1A]">Community Links <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+            <p className="text-xs text-[#9CA3AF] -mt-2">Add links so members can easily find your community chat and socials</p>
+            <div className="grid grid-cols-1 gap-3">
+              {[
+                { label: '💬 WhatsApp', value: whatsappUrl, setter: setWhatsappUrl, placeholder: 'https://chat.whatsapp.com/...' },
+                { label: '✈️ Telegram', value: telegramUrl, setter: setTelegramUrl, placeholder: 'https://t.me/...' },
+                { label: '📸 Instagram', value: instagramUrl, setter: setInstagramUrl, placeholder: 'https://instagram.com/...' },
+                { label: '📘 Facebook', value: facebookUrl, setter: setFacebookUrl, placeholder: 'https://facebook.com/groups/...' },
+                { label: '🌐 Website', value: websiteUrl, setter: setWebsiteUrl, placeholder: 'https://yourclub.com' },
+              ].map(({ label, value, setter, placeholder }) => (
+                <div key={label} className="flex items-center gap-3">
+                  <span className="text-sm text-[#616161] w-28 shrink-0">{label}</span>
+                  <input type="url" value={value} onChange={e => setter(e.target.value)} placeholder={placeholder}
+                    className="flex-1 px-4 py-2.5 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors text-sm" />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Public toggle */}

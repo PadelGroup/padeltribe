@@ -160,6 +160,11 @@ export default function TournamentPage() {
             </div>
             <div className="flex items-center gap-3 flex-wrap mt-1">
               <p className="text-[#616161] text-sm">{fmt?.label} • {players.length} players registered</p>
+              {tournament.start_date && (
+                <span className="text-xs font-semibold px-2 py-0.5 bg-[#F9F7F5] text-[#616161] border border-[#E8E4DF] rounded-lg">
+                  🗓 {new Date(tournament.start_date).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
+                </span>
+              )}
               {tournament.price_per_person != null && tournament.price_per_person > 0 && (
                 <span className="text-xs font-semibold px-2 py-0.5 bg-[#FFF4EC] text-[#F97316] border border-[#FDBA74] rounded-lg">
                   💰 ${tournament.price_per_person} / person

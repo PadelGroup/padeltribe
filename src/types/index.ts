@@ -88,6 +88,11 @@ export interface Community {
   city?: string;
   club_name?: string;
   is_public?: boolean;
+  whatsapp_url?: string;
+  telegram_url?: string;
+  instagram_url?: string;
+  facebook_url?: string;
+  website_url?: string;
   created_at: string;
   member_count?: number;
 }

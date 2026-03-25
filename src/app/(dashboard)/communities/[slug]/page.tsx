@@ -43,6 +43,25 @@ export default async function CommunityPage({ params }: { params: Promise<{ slug
                 {[community.club_name, community.city, community.country].filter(Boolean).join(' · ')}
               </p>
             )}
+            {(community.whatsapp_url || community.telegram_url || community.instagram_url || community.facebook_url || community.website_url) && (
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                {community.whatsapp_url && (
+                  <a href={community.whatsapp_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] text-[#616161] transition-colors">💬 WhatsApp</a>
+                )}
+                {community.telegram_url && (
+                  <a href={community.telegram_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] text-[#616161] transition-colors">✈️ Telegram</a>
+                )}
+                {community.instagram_url && (
+                  <a href={community.instagram_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] text-[#616161] transition-colors">📸 Instagram</a>
+                )}
+                {community.facebook_url && (
+                  <a href={community.facebook_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] text-[#616161] transition-colors">📘 Facebook</a>
+                )}
+                {community.website_url && (
+                  <a href={community.website_url} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 bg-[#F9F7F5] border border-[#E8E4DF] rounded-lg hover:border-[#F97316] hover:text-[#F97316] text-[#616161] transition-colors">🌐 Website</a>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">

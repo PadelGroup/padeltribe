@@ -16,6 +16,7 @@ export default function CreateTournamentPage() {
   const [maxPlayers, setMaxPlayers] = useState<string>('');
   const [pointsPerGame, setPointsPerGame] = useState(32);
   const [setsToWin, setSetsToWin] = useState(2);
+  const [startDate, setStartDate] = useState('');
   const [venueUrl, setVenueUrl] = useState('');
   const [pricePerPerson, setPricePerPerson] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,7 @@ export default function CreateTournamentPage() {
       points_per_game: isPointsBased ? pointsPerGame : 6,
       sets_to_win: setsToWin,
       created_by: user.id,
+      start_date: startDate || null,
       venue_url: venueUrl.trim() || null,
       price_per_person: pricePerPerson ? parseFloat(pricePerPerson) : null,
     }).select().single();
@@ -124,9 +126,15 @@ export default function CreateTournamentPage() {
           )}
         </div>
 
-        {/* Venue & Price */}
+        {/* Date, Venue & Price */}
         <div className="bg-white border border-[#E8E4DF] rounded-2xl p-6 space-y-5">
-          <h3 className="font-bold text-[#1A1A1A]">Venue & Cost <span className="text-[#9CA3AF] font-normal text-sm">(optional)</span></h3>
+          <h3 className="font-bold text-[#1A1A1A]">Date, Venue & Cost <span className="text-[#9CA3AF] font-normal text-sm">(optional)</span></h3>
+          <div>
+            <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Date & Time</label>
+            <input type="datetime-local" value={startDate} onChange={e => setStartDate(e.target.value)}
+              className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] focus:border-[#F97316] transition-colors text-sm" />
+            <p className="text-xs text-[#9CA3AF] mt-1">When the tournament is scheduled to start</p>
+          </div>
           <div>
             <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Google Maps link</label>
             <input type="url" value={venueUrl} onChange={e => setVenueUrl(e.target.value)}

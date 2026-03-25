@@ -177,7 +177,7 @@ export default function PlayersPage() {
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[#1A1A1A] text-sm">{req.profile?.name || 'Unknown'}</p>
                   {req.profile?.email && <p className="text-xs text-[#9CA3AF]">{req.profile.email}</p>}
-                  {req.message && <p className="text-xs text-[#616161] mt-1 italic">"{req.message}"</p>}
+                  {req.message && <p className="text-xs text-[#616161] mt-1 italic">&ldquo;{req.message}&rdquo;</p>}
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <button onClick={() => approveRequest(req)} disabled={actionLoading === req.id}

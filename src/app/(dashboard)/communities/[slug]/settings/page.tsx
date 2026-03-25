@@ -131,7 +131,7 @@ export default function CommunitySettingsPage() {
       <div>
         <Link href={`/communities/${slug}`} className="text-[#616161] hover:text-[#1A1A1A] text-sm flex items-center gap-1 mb-2">← {community?.name}</Link>
         <h1 className="text-2xl font-black text-[#1A1A1A]">Community Settings</h1>
-        <p className="text-[#616161]">Manage your community's appearance and details</p>
+        <p className="text-[#616161]">Manage your community&apos;s appearance and details</p>
       </div>
 
       <div className="bg-white border border-[#E8E4DF] rounded-2xl p-6">

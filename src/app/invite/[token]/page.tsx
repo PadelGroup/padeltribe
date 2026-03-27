@@ -48,13 +48,17 @@ export default function InvitePage() {
         // Check if already a member
         const { data: existing } = await supabase.from('community_members').select('id').eq('community_id', data.community_id).eq('user_id', user.id).single();
         if (existing) { setStep('already_member'); return; }
-        // Check if profile is complete
-        const { data: profile } = await supabase.from('profiles').select('name').eq('id', user.id).single();
-        if (!profile?.name) {
+        // Fetch profile to check if new user (no padel level = needs profile setup)
+        const { data: profile } = await supabase.from('profiles').select('name, level').eq('id', user.id).single();
+        // Pre-fill name from Google/existing profile
+        if (profile?.name) setName(profile.name);
+        if (!profile?.level) {
+          // New user — show profile setup (name pre-filled, needs level/side/avatar)
           setStep('profile');
         } else {
+          // Returning user with complete profile — join directly
           const slug = (data.community as { slug?: string })?.slug || '';
-        await joinCommunity(user.id, data.community_id, data.id, slug);
+          await joinCommunity(user.id, data.community_id, data.id, slug);
         }
       } else {
         setStep('join');

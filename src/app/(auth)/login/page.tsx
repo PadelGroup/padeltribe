@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 
-type Step = 'choose' | 'email' | 'phone' | 'otp';
+type Step = 'choose' | 'email';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,8 +13,6 @@ export default function LoginPage() {
   const [step, setStep] = useState<Step>('choose');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -33,22 +31,6 @@ export default function LoginPage() {
     router.push('/dashboard'); router.refresh();
   };
 
-  const handlePhoneSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true); setError('');
-    const formatted = phone.startsWith('+') ? phone : `+${phone}`;
-    const { error } = await supabase.auth.signInWithOtp({ phone: formatted });
-    if (error) { setError(error.message); setLoading(false); return; }
-    setStep('otp'); setLoading(false);
-  };
-
-  const handleOtpVerify = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true); setError('');
-    const formatted = phone.startsWith('+') ? phone : `+${phone}`;
-    const { error } = await supabase.auth.verifyOtp({ phone: formatted, token: otp, type: 'sms' });
-    if (error) { setError(error.message); setLoading(false); return; }
-    router.push('/dashboard'); router.refresh();
-  };
-
   return (
     <div className="min-h-screen bg-[#F5F2EE] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -62,7 +44,6 @@ export default function LoginPage() {
         <div className="bg-white border border-[#E8E4DF] shadow-sm rounded-2xl p-8">
           {step === 'choose' && (
             <div className="space-y-3">
-              {/* Google */}
               <button onClick={handleGoogleLogin} disabled={loading}
                 className="w-full py-3.5 px-6 bg-white border-2 border-[#E8E4DF] hover:border-[#F97316] hover:bg-[#FFF4EC] rounded-xl flex items-center justify-center gap-3 transition-all font-semibold text-[#1A1A1A] disabled:opacity-50">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -80,15 +61,10 @@ export default function LoginPage() {
                 <div className="flex-1 h-px bg-[#E8E4DF]" />
               </div>
 
-              <button onClick={() => setStep('phone')}
-                className="w-full py-3.5 px-6 bg-white border border-[#E8E4DF] hover:border-[#F97316] hover:bg-[#FFF4EC] rounded-xl text-left flex items-center gap-4 transition-all">
-                <span className="text-xl">📱</span>
-                <div><div className="font-semibold text-[#1A1A1A]">Phone Number</div><div className="text-xs text-[#9CA3AF]">Sign in with OTP code</div></div>
-              </button>
               <button onClick={() => setStep('email')}
                 className="w-full py-3.5 px-6 bg-white border border-[#E8E4DF] hover:border-[#F97316] hover:bg-[#FFF4EC] rounded-xl text-left flex items-center gap-4 transition-all">
                 <span className="text-xl">✉️</span>
-                <div><div className="font-semibold text-[#1A1A1A]">Email & Password</div><div className="text-xs text-[#9CA3AF]">For admins and existing accounts</div></div>
+                <div><div className="font-semibold text-[#1A1A1A]">Email & Password</div><div className="text-xs text-[#9CA3AF]">Sign in with your email</div></div>
               </button>
 
               <div className="text-center pt-2">
@@ -97,12 +73,13 @@ export default function LoginPage() {
               </div>
             </div>
           )}
+
           {step === 'email' && (
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <button type="button" onClick={() => setStep('choose')} className="text-[#616161] hover:text-[#1A1A1A] text-sm">← Back</button>
               <div>
                 <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Email</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="admin@example.com"
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="you@example.com"
                   className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors" />
               </div>
               <div>
@@ -114,39 +91,6 @@ export default function LoginPage() {
               <button type="submit" disabled={loading} className="w-full py-3 bg-[#F97316] hover:bg-[#EA6C10] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
-            </form>
-          )}
-          {step === 'phone' && (
-            <form onSubmit={handlePhoneSendOtp} className="space-y-4">
-              <button type="button" onClick={() => setStep('choose')} className="text-[#616161] hover:text-[#1A1A1A] text-sm">← Back</button>
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Phone Number</label>
-                <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required placeholder="+1234567890"
-                  className="w-full px-4 py-3 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:border-orange-400 transition-colors" />
-                <p className="text-xs text-[#9CA3AF] mt-1">Include country code (e.g. +44 for UK)</p>
-              </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" disabled={loading} className="w-full py-3 bg-[#F97316] hover:bg-[#EA6C10] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
-                {loading ? 'Sending...' : 'Send OTP Code'}
-              </button>
-            </form>
-          )}
-          {step === 'otp' && (
-            <form onSubmit={handleOtpVerify} className="space-y-4">
-              <div className="text-center mb-2">
-                <div className="text-4xl mb-2">📲</div>
-                <p className="text-[#616161] text-sm">Code sent to <strong>{phone}</strong></p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Enter OTP Code</label>
-                <input type="text" value={otp} onChange={e => setOtp(e.target.value)} required placeholder="123456" maxLength={6}
-                  className="w-full px-4 py-4 bg-[#F9F7F5] border border-[#E8E4DF] rounded-xl text-[#1A1A1A] text-center text-2xl tracking-widest placeholder:text-[#9CA3AF] focus:border-[#F97316] transition-colors" />
-              </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" disabled={loading} className="w-full py-3 bg-[#F97316] text-white rounded-xl font-bold disabled:opacity-50 transition-all">
-                {loading ? 'Verifying...' : 'Verify & Sign In'}
-              </button>
-              <button type="button" onClick={() => setStep('phone')} className="w-full text-[#616161] hover:text-[#1A1A1A] text-sm">Change number</button>
             </form>
           )}
         </div>

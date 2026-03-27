@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { TOURNAMENT_FORMATS } from '@/types';
@@ -135,8 +136,24 @@ export default function TournamentPage() {
   };
 
   if (loading) return (
-    <div className="pt-16 lg:pt-0 flex items-center justify-center min-h-64">
-      <div className="text-4xl animate-pulse">🏓</div>
+    <div className="space-y-6 pt-16 lg:pt-0">
+      <div className="bg-white border border-[#E8E4DF] rounded-2xl p-5 space-y-3">
+        <div className="flex items-start justify-between">
+          <div className="space-y-2 flex-1"><Skeleton className="h-7 w-56" /><Skeleton className="h-5 w-36" /></div>
+          <Skeleton className="h-8 w-24 rounded-full" />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton className="h-6 w-24 rounded-full" /><Skeleton className="h-6 w-20 rounded-full" /><Skeleton className="h-6 w-28 rounded-full" />
+        </div>
+      </div>
+      <div className="bg-white border border-[#E8E4DF] rounded-2xl p-5 space-y-3">
+        <Skeleton className="h-6 w-32" />
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="flex items-center gap-3 p-3 border border-[#E8E4DF] rounded-xl">
+            <Skeleton className="w-9 h-9 rounded-full" /><Skeleton className="h-4 w-32 flex-1" /><Skeleton className="h-6 w-16 rounded-full" />
+          </div>
+        ))}
+      </div>
     </div>
   );
   if (!tournament) return null;

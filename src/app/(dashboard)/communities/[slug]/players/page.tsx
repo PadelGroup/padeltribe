@@ -8,6 +8,7 @@ import AvatarDisplay from '@/components/ui/avatar-display';
 import PlayerLevelBadge from '@/components/ui/player-level-badge';
 import LevelPicker from '@/components/ui/level-picker';
 import type { CommunityMember, Community } from '@/types';
+import { PlayerRowSkeleton, Skeleton } from '@/components/ui/skeleton';
 
 export default function PlayersPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -113,7 +114,21 @@ export default function PlayersPage() {
     return { icon: '👈', label: 'Left' };
   };
 
-  if (loading) return <div className="pt-16 lg:pt-0 flex items-center justify-center min-h-64"><div className="text-4xl animate-pulse">🏓</div></div>;
+  if (loading) return (
+    <div className="space-y-6 pt-16 lg:pt-0">
+      <div className="flex items-center justify-between">
+        <div className="space-y-2"><Skeleton className="h-4 w-24" /><Skeleton className="h-8 w-24" /><Skeleton className="h-4 w-20" /></div>
+      </div>
+      <div className="bg-white border border-[#E8E4DF] rounded-2xl p-5 space-y-3">
+        <Skeleton className="h-5 w-32" /><Skeleton className="h-4 w-48" />
+        <div className="flex gap-2"><Skeleton className="h-11 flex-1 rounded-xl" /><Skeleton className="h-11 w-20 rounded-xl" /></div>
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-5 w-20 mb-3" />
+        {[...Array(5)].map((_, i) => <PlayerRowSkeleton key={i} />)}
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6 pt-16 lg:pt-0">

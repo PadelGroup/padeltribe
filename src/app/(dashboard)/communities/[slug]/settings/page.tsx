@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import CommunityLogoPicker from '@/components/ui/community-logo-picker';
@@ -123,7 +124,20 @@ export default function CommunitySettingsPage() {
     setTimeout(() => setSaved(false), 2500);
   };
 
-  if (loading) return <div className="pt-16 lg:pt-0 flex items-center justify-center min-h-64"><div className="text-4xl animate-pulse">🏓</div></div>;
+  if (loading) return (
+    <div className="space-y-6 pt-16 lg:pt-0">
+      <Skeleton className="h-9 w-32" />
+      <div className="bg-white border border-[#E8E4DF] rounded-2xl p-6 space-y-5">
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-24 w-full rounded-xl" />
+        <Skeleton className="h-5 w-20" />
+        <Skeleton className="h-11 w-full rounded-xl" />
+        <Skeleton className="h-5 w-28" />
+        <Skeleton className="h-20 w-full rounded-xl" />
+      </div>
+      <Skeleton className="h-12 w-full rounded-xl" />
+    </div>
+  );
   if (!isAdmin) return <div className="pt-16 lg:pt-0 text-center py-16 text-[#616161]">Admin access required.</div>;
 
   return (

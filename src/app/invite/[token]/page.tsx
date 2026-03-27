@@ -53,7 +53,8 @@ export default function InvitePage() {
         if (!profile?.name) {
           setStep('profile');
         } else {
-          await joinCommunity(user.id, data.community_id, data.id);
+          const slug = (data.community as { slug?: string })?.slug || '';
+        await joinCommunity(user.id, data.community_id, data.id, slug);
         }
       } else {
         setStep('join');
@@ -62,18 +63,20 @@ export default function InvitePage() {
     fetchInvite();
   }, [token]);
 
-  const joinCommunity = async (uid: string, communityId: string, inviteId: string) => {
+  const joinCommunity = async (uid: string, communityId: string, inviteId: string, slug: string) => {
     await supabase.from('community_members').upsert({ community_id: communityId, user_id: uid, role: 'player' });
     // Increment use_count (multi-use — do NOT set used = true)
     await supabase.rpc('increment_invite_use_count', { invite_id: inviteId });
-    const comm = invite?.community as { slug?: string };
-    router.push(`/communities/${comm?.slug || ''}`);
+    router.push(`/communities/${slug}`);
   };
 
   const handleOAuth = async (provider: 'google' | 'apple') => {
     setOauthLoading(provider);
     setError('');
-    const redirectTo = typeof window !== 'undefined' ? window.location.href : '';
+    const next = typeof window !== 'undefined' ? window.location.pathname : `/invite/${token}`;
+    const redirectTo = typeof window !== 'undefined'
+      ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`
+      : '';
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo },
@@ -120,7 +123,8 @@ export default function InvitePage() {
       avatar_url: avatarUrl || null,
       level: level || null,
     }).eq('id', user.id);
-    await joinCommunity(user.id, invite!.community_id, invite!.id);
+    const slug = (invite?.community as { slug?: string })?.slug || '';
+    await joinCommunity(user.id, invite!.community_id, invite!.id, slug);
   };
 
   const communityName = (invite?.community as { name?: string })?.name || 'the community';

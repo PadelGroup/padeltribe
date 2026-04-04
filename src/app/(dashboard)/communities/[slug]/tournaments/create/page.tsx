@@ -16,6 +16,7 @@ export default function CreateTournamentPage() {
   const [maxPlayers, setMaxPlayers] = useState<string>('');
   const [pointsPerGame, setPointsPerGame] = useState(32);
   const [setsToWin, setSetsToWin] = useState(2);
+  const [rankingPriority, setRankingPriority] = useState<'points_first' | 'wins_first'>('points_first');
   const [startDate, setStartDate] = useState('');
   const [venueUrl, setVenueUrl] = useState('');
   const [pricePerPerson, setPricePerPerson] = useState<string>('');
@@ -30,6 +31,7 @@ export default function CreateTournamentPage() {
 
   const selectedFormat = TOURNAMENT_FORMATS.find(f => f.value === format)!;
   const isPointsBased = !['regular_sets'].includes(format);
+  const hasRankingPriority = ['americano', 'team_americano', 'mexicano', 'team_mexicano', 'mix_americano', 'mix_mexicano', 'king_of_court'].includes(format);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true); setError('');
@@ -42,6 +44,7 @@ export default function CreateTournamentPage() {
       max_players: maxPlayers ? parseInt(maxPlayers) : null,
       points_per_game: isPointsBased ? pointsPerGame : 6,
       sets_to_win: setsToWin,
+      ranking_priority: hasRankingPriority ? rankingPriority : 'points_first',
       created_by: user.id,
       start_date: startDate || null,
       venue_url: venueUrl.trim() || null,
@@ -121,6 +124,26 @@ export default function CreateTournamentPage() {
                     Best of {s * 2 - 1}
                   </button>
                 ))}
+              </div>
+            </div>
+          )}
+          {hasRankingPriority && (
+            <div>
+              <label className="block text-sm font-medium text-[#616161] mb-2">Ranking Priority</label>
+              <p className="text-xs text-[#9CA3AF] mb-3">When two players are tied, what decides the winner?</p>
+              <div className="grid grid-cols-2 gap-3">
+                <button type="button" onClick={() => setRankingPriority('points_first')}
+                  className={`p-4 rounded-xl text-left transition-all border ${rankingPriority === 'points_first' ? 'border-[#F97316] bg-[#FFF4EC]' : 'border-[#E8E4DF] bg-white hover:border-[#FDBA74]'}`}>
+                  <div className="text-lg mb-1">🎯</div>
+                  <div className="font-semibold text-sm text-[#1A1A1A]">Points First</div>
+                  <div className="text-xs text-[#616161] mt-0.5">Rank by total points scored. Wins only count as tiebreaker.</div>
+                </button>
+                <button type="button" onClick={() => setRankingPriority('wins_first')}
+                  className={`p-4 rounded-xl text-left transition-all border ${rankingPriority === 'wins_first' ? 'border-[#F97316] bg-[#FFF4EC]' : 'border-[#E8E4DF] bg-white hover:border-[#FDBA74]'}`}>
+                  <div className="text-lg mb-1">🏆</div>
+                  <div className="font-semibold text-sm text-[#1A1A1A]">Wins First</div>
+                  <div className="text-xs text-[#616161] mt-0.5">Rank by number of wins. Points only count as tiebreaker.</div>
+                </button>
               </div>
             </div>
           )}

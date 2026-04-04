@@ -137,6 +137,7 @@ export interface Tournament {
   player_count?: number;
   venue_url?: string;
   price_per_person?: number;
+  ranking_priority: 'points_first' | 'wins_first';
 }
 
 export interface TournamentPlayer {

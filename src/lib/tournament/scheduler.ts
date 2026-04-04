@@ -166,8 +166,9 @@ export function generateKingOfCourtRound(
 
 export function calculateStandings(
   players: Profile[],
-  matches: Match[]
-): { user_id: string; name: string; points: number; matches_played: number; matches_won: number }[] {
+  matches: Match[],
+  rankingPriority: 'points_first' | 'wins_first' = 'points_first'
+): { user_id: string; name: string; points: number; matches_played: number; matches_won: number; win_rate: number }[] {
   const stats = new Map<string, { points: number; played: number; won: number }>();
 
   players.forEach(p => stats.set(p.id, { points: 0, played: 0, won: 0 }));
@@ -201,8 +202,17 @@ export function calculateStandings(
 
   return players.map(p => {
     const s = stats.get(p.id) ?? { points: 0, played: 0, won: 0 };
-    return { user_id: p.id, name: p.name, ...s, matches_played: s.played, matches_won: s.won };
-  }).sort((a, b) => b.points - a.points || b.matches_won - a.matches_won);
+    const win_rate = s.played > 0 ? Math.round((s.won / s.played) * 100) : 0;
+    return { user_id: p.id, name: p.name, ...s, matches_played: s.played, matches_won: s.won, win_rate };
+  }).sort((a, b) => {
+    if (rankingPriority === 'wins_first') {
+      if (b.matches_won !== a.matches_won) return b.matches_won - a.matches_won;
+      return b.points - a.points; // tiebreaker: points
+    } else {
+      if (b.points !== a.points) return b.points - a.points;
+      return b.matches_won - a.matches_won; // tiebreaker: wins
+    }
+  });
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
